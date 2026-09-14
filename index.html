@@ -9,6 +9,7 @@
 <style>
 :root{color-scheme:light;--ink:#152235;--muted:#526175;--blue:#65afff;--line:#dce4ed}*{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:var(--ink);font:16px/1.55 Arial,Helvetica,sans-serif}main{max-width:1120px;margin:auto;padding:40px 28px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:30px}.brand{font-size:32px;font-weight:800;letter-spacing:-1.4px}.brand span{color:var(--blue)}.eyebrow{font-size:14px;color:var(--muted)}h1{font-size:32px;line-height:1.2;letter-spacing:-.7px;margin:0 0 10px}h2{font-size:18px;margin:0 0 22px}p{margin:0 0 20px}.intro{color:var(--muted);margin-bottom:28px}.workspace{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:start}.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:28px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}.field{min-width:0}.wide{grid-column:1/-1}label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}label span{color:var(--muted);font-weight:400}input{width:100%;min-height:46px;border:1px solid #bbc8d6;border-radius:6px;padding:10px 12px;font:inherit;color:var(--ink);background:white}input::placeholder{color:#748194}input:focus{outline:3px solid #65afff55;border-color:#246ab7}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #246ab7;outline-offset:4px}.privacy{color:var(--muted);font-size:14px;margin:20px 0 0}.preview-head{display:flex;justify-content:space-between;gap:12px}.badge{font-size:12px;color:#37516c}.paper{background:white;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:6px;padding:28px 22px;margin-bottom:24px;overflow-wrap:anywhere}#signature{user-select:text;min-width:0}.actions{display:flex;flex-wrap:wrap;gap:10px}button{border:0;border-radius:6px;padding:13px 18px;min-height:46px;font:600 14px Arial;cursor:pointer;background:var(--blue);color:var(--ink)}button:hover{background:#8bc3ff}.secondary{background:#edf2f7}.secondary:hover{background:#dfe8f2}#status{font-size:14px;color:var(--muted);margin:14px 0 0;min-height:44px}.help{margin-top:24px}ol{padding-left:22px;margin:0}li{padding-left:5px;margin:10px 0}details{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}summary{cursor:pointer;font-size:14px;font-weight:600}details p{font-size:14px;color:var(--muted);margin:12px 0 0}a{color:#225f9f}footer{font-size:13px;color:var(--muted);margin:22px 0}noscript{display:block;padding:20px;background:#fff1d4}@media(max-width:760px){main{padding:24px 16px}.workspace{grid-template-columns:1fr}.panel{padding:22px}h1{font-size:28px}header{margin-bottom:24px}.paper{padding:22px 16px}}@media(max-width:380px){.fields{grid-template-columns:1fr}.field{grid-column:1}.eyebrow{max-width:110px;text-align:right}.panel{padding:18px}}
 .toggle{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;margin:0}.toggle input{position:absolute;width:44px;height:26px;min-height:0;opacity:0;margin:0}.toggle-track{width:44px;height:26px;flex-shrink:0;background:#9aa8b8;border-radius:20px;padding:3px}.toggle-track::after{content:"";display:block;width:20px;height:20px;border-radius:50%;background:white;transition:transform .15s}.toggle input:checked+.toggle-track{background:#246ab7}.toggle input:checked+.toggle-track::after{transform:translateX(18px)}.toggle input:focus-visible+.toggle-track{outline:3px solid #65afff;outline-offset:3px}[hidden]{display:none!important}
+.tabs{display:flex;gap:6px;background:#edf2f7;padding:5px;border-radius:9px;margin-bottom:24px}.tabs button{flex:1;background:transparent;padding:12px 10px}.tabs button[aria-selected="true"]{background:var(--blue)}#mobile-signature{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.65 Arial,Helvetica,sans-serif;color:var(--ink);margin:0;user-select:text}.mobile-note{font-size:14px;color:var(--muted)}#mobile-status{font-size:14px;color:var(--muted);margin:14px 0 0;min-height:44px}
 </style>
 </head>
 <body>
@@ -34,6 +35,11 @@
 <p class="privacy">Deine Angaben bleiben auf dieser Seite. Sie werden weder gespeichert noch an einen Server gesendet.</p>
 </section>
 <div>
+<div class="tabs" role="tablist" aria-label="Signatur für">
+<button type="button" role="tab" id="desktop-tab" aria-controls="desktop-panel" aria-selected="true" tabindex="0">Desktop / Web</button>
+<button type="button" role="tab" id="mobile-tab" aria-controls="mobile-panel" aria-selected="false" tabindex="-1">Für Mobile</button>
+</div>
+<div id="desktop-panel" role="tabpanel" aria-labelledby="desktop-tab">
 <section class="panel" aria-labelledby="preview-title">
 <div class="preview-head"><h2 id="preview-title">2. Deine Signatur</h2><span class="badge">LIVE-VORSCHAU</span></div>
 <div class="paper"><div id="signature" aria-label="Signaturvorschau"></div></div>
@@ -53,6 +59,21 @@
 <p class="privacy">Sende dir eine Test-E-Mail, um Formatierung und Links zu prüfen. Die Darstellung kann je nach Outlook-Version abweichen. <a href="https://support.microsoft.com/en-us/outlook/mail/how-to-add-and-change-an-email-signature-in-outlook" target="_blank" rel="noopener noreferrer">Microsoft-Anleitung</a></p>
 </section>
 </div>
+<div id="mobile-panel" role="tabpanel" aria-labelledby="mobile-tab" hidden>
+<section class="panel" aria-labelledby="mobile-preview-title">
+<div class="preview-head"><h2 id="mobile-preview-title">2. Deine Mobile Signatur</h2><span class="badge">LIVE-VORSCHAU</span></div>
+<p class="mobile-note">Für Outlook auf iOS: Diese Signatur wird als reiner Text ohne Logo und HTML-Formatierung kopiert. So ist sie unabhängig von der Bild- und Formatierungsunterstützung der App.</p>
+<div class="paper"><pre id="mobile-signature" aria-label="Mobile Signaturvorschau"></pre></div>
+<div class="actions"><button type="button" id="copy-mobile">Mobile Signatur kopieren</button><button type="button" class="secondary" id="select-mobile">Manuell kopieren</button></div>
+<p id="mobile-status" role="status" aria-live="polite">Dieselben Personendaten, automatisch übernommen. LinkedIn bleibt der Desktop-Signatur vorbehalten.</p>
+</section>
+<section class="panel help" aria-labelledby="mobile-help-title">
+<h2 id="mobile-help-title">3. Auf dem iPhone einfügen</h2>
+<ol><li>Öffne diese Seite auf deinem iPhone, fülle deine Angaben aus und tippe auf <strong>Mobile Signatur kopieren</strong>.</li><li>Öffne die Einstellungen in Outlook und suche <strong>Signatur</strong>.</li><li>Ersetze die bisherige Signatur durch den kopierten Text. Falls du mehrere Konten verwendest, wähle das passende Konto.</li><li>Sende dir eine Test-E-Mail und prüfe die Angaben.</li></ol>
+<p class="privacy">Falls automatisches Kopieren nicht verfügbar ist: Tippe auf «Manuell kopieren» oder halte den Vorschautext gedrückt und wähle ihn zum Kopieren aus.</p>
+</section>
+</div>
+</div>
 </div>
 <footer>Eine Signatur für das ganze Team.</footer>
 </main>
@@ -62,6 +83,30 @@ const logoURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABlEAAAZRCAYAAAAh6rV
 const form=document.getElementById('form');
 const signature=document.getElementById('signature');
 const status=document.getElementById('status');
+const mobileSignature=document.getElementById('mobile-signature');
+const mobileStatus=document.getElementById('mobile-status');
+let activeTab='desktop';
+const tabs=['desktop','mobile'];
+function activateTab(id){
+ activeTab=id;
+ tabs.forEach(key=>{
+  const tab=document.getElementById(key+'-tab');
+  tab.setAttribute('aria-selected',String(key===id));tab.tabIndex=key===id?0:-1;
+  document.getElementById(key+'-panel').hidden=key!==id;
+ });
+ render();
+}
+tabs.forEach((id,index)=>{
+ const tab=document.getElementById(id+'-tab');
+ tab.addEventListener('click',()=>activateTab(id));
+ tab.addEventListener('keydown',event=>{
+  let next;
+  if(event.key==='ArrowRight'||event.key==='ArrowLeft')next=tabs[1-index];
+  if(event.key==='Home')next=tabs[0];
+  if(event.key==='End')next=tabs[1];
+  if(next){event.preventDefault();activateTab(next);document.getElementById(next+'-tab').focus();}
+ });
+});
 const fields=Object.fromEntries(['first','last','role','mobile','email','linkedin'].map(id=>[id,document.getElementById(id)]));
 const escapeHTML=value=>value.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 function linkedinURL(value){
@@ -79,15 +124,16 @@ function render(){
  const data=Object.fromEntries(Object.entries(fields).map(([id,field])=>[id,field.value.trim()]));
  for(const [id,field] of Object.entries(fields)){field.setCustomValidity(field.required&&!data[id]?'Bitte dieses Feld ausfüllen.':'');}
  const linkedin=linkedinURL(data.linkedin);
- fields.linkedin.setCustomValidity(data.linkedin&&!linkedin?'Bitte einen gültigen HTTPS-Link zu einem LinkedIn-Profil eingeben.':'');
+ fields.linkedin.setCustomValidity(activeTab==='desktop'&&data.linkedin&&!linkedin?'Bitte einen gültigen HTTPS-Link zu einem LinkedIn-Profil eingeben.':'');
  const name=[data.first||'Vorname',data.last||'Nachname'].join(' ');
+ mobileSignature.textContent=[name,data.role||'Funktion','Mpirix','',...(includeMobile.checked?[data.mobile||'Telefonnummer']:[]),data.email||'E-Mail-Adresse','www.mpirix.ch'].join('\n');
  const linkStyle='color:#65afff;text-decoration:none;';
  const telephone=(value,label)=>`<span style="color:#65afff;">${label}: </span>${value?`<a href="tel:${escapeHTML(value.replace(/[^+\d]/g,''))}" style="${linkStyle}">${escapeHTML(value)}</a>`:'<span style="color:#65afff;">Telefonnummer</span>'}`;
  const email=data.email&&fields.email.validity.valid?`<a href="mailto:${escapeHTML(data.email)}" style="${linkStyle}">${escapeHTML(data.email)}</a>`:`<span style="color:#65afff;">${escapeHTML(data.email||'E-Mail-Adresse')}</span>`;
  signature.innerHTML=`<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#000000;font-size:12px;line-height:21px;max-width:100%;"><tbody><tr><td width="116" valign="middle" style="width:116px;padding:0 16px 0 0;border-right:2px solid #000000;"><a href="https://mpirix.ch" target="_blank" rel="noopener noreferrer" aria-label="Mpirix Webseite öffnen" style="text-decoration:none;"><img src="${logoURL}" alt="Mpirix" width="100" height="100" style="display:block;width:100px;height:100px;border:0;"></a></td><td valign="top" style="padding:0 0 0 10px;word-break:break-word;"><span style="font-size:14px;line-height:18px;font-weight:bold;color:#000000;">${escapeHTML(name)}</span><br><span style="color:#444444;line-height:18px;">${escapeHTML(data.role||'Funktion')}</span>${includeMobile.checked?`<br>${telephone(data.mobile,'Mobile')}`:''}<br><span style="color:#65afff;">E-Mail: </span>${email}${linkedin?`<br><a href="${escapeHTML(linkedin)}" style="${linkStyle}">LinkedIn</a>`:''}</td></tr></tbody></table>`;
 }
-function selectSignature(){
- const range=document.createRange();range.selectNodeContents(signature);
+function selectSignature(target=signature){
+ const range=document.createRange();range.selectNodeContents(target);
  const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
 }
 function legacyCopy(html,plain){
@@ -96,13 +142,13 @@ function legacyCopy(html,plain){
  document.addEventListener('copy',handler);
  try{return document.execCommand('copy');}catch{return false;}finally{document.removeEventListener('copy',handler);}
 }
-form.addEventListener('input',()=>{render();status.textContent='Vorschau aktualisiert. Kopiere die Signatur, sobald deine Angaben vollständig sind.';});
+form.addEventListener('input',()=>{render();mobileStatus.textContent='Mobile Vorschau aktualisiert.';status.textContent='Vorschau aktualisiert. Kopiere die Signatur, sobald deine Angaben vollständig sind.';});
 document.getElementById('select').addEventListener('click',()=>{
  render();if(!form.reportValidity())return;selectSignature();
  status.textContent='Signatur markiert. Jetzt Strg + C (Mac: ⌘ + C) drücken und in Outlook einfügen.';
 });
 form.addEventListener('submit',async event=>{
- event.preventDefault();render();if(!form.reportValidity())return;
+ event.preventDefault();if(activeTab==='mobile'){await copyMobile();return;}render();if(!form.reportValidity())return;
  const html=signature.innerHTML;const plain=signature.innerText;
  let copied=false;
  try{if(window.isSecureContext&&navigator.clipboard&&window.ClipboardItem){await navigator.clipboard.write([new ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([plain],{type:'text/plain'})})]);copied=true;}}catch{}
@@ -110,6 +156,27 @@ form.addEventListener('submit',async event=>{
  if(copied){status.textContent='Signatur kopiert. Jetzt in Outlook einfügen.';window.getSelection().removeAllRanges();}
  else{selectSignature();status.textContent='Automatisches Kopieren ist hier nicht verfügbar. Die Signatur ist markiert: Bitte Strg + C (Mac: ⌘ + C) drücken.';}
 });
+function selectMobile(){
+ render();if(!form.reportValidity())return;
+ selectSignature(mobileSignature);
+ mobileStatus.textContent='Mobile Signatur markiert. Wähle Kopieren oder drücke Strg + C (Mac: ⌘ + C).';
+}
+async function copyMobile(){
+ render();if(!form.reportValidity())return;
+ const plain=mobileSignature.textContent;
+ let copied=false;
+ try{if(window.isSecureContext&&navigator.clipboard){await navigator.clipboard.writeText(plain);copied=true;}}catch{}
+ if(!copied){
+  const area=document.createElement('textarea');area.value=plain;area.setAttribute('aria-label','Mobile Signatur zum Kopieren');
+  area.style.cssText='position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;';
+  document.body.appendChild(area);area.focus();area.select();area.setSelectionRange(0,plain.length);
+  try{copied=document.execCommand('copy');}catch{}finally{area.remove();document.getElementById('copy-mobile').focus();}
+ }
+ if(copied){mobileStatus.textContent='Mobile Signatur als Text kopiert. Jetzt in Outlook einfügen.';}
+ else{selectMobile();mobileStatus.textContent='Bitte den Vorschautext gedrückt halten und kopieren oder Strg + C (Mac: ⌘ + C) drücken.';}
+}
+document.getElementById('copy-mobile').addEventListener('click',copyMobile);
+document.getElementById('select-mobile').addEventListener('click',selectMobile);
 render();
 </script>
 </body>
