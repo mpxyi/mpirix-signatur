@@ -29,7 +29,7 @@
 <div class="field wide"><label for="role">Funktion</label><input id="role" autocomplete="organization-title" placeholder="z. B. Project Manager" required maxlength="120"></div>
 <div class="field wide"><label class="toggle" for="include-mobile"><input id="include-mobile" type="checkbox" role="switch" checked aria-controls="mobile-field"><span class="toggle-track" aria-hidden="true"></span><span>Mobile-Nummer anzeigen</span></label></div>
 <div class="field wide" id="mobile-field"><label for="mobile">Mobile</label><input id="mobile" type="tel" autocomplete="mobile tel" placeholder="z. B. +41 79 100 10 10" required maxlength="45"></div>
-<div class="field wide"><label for="email">E-Mail</label><div class="email-input"><input id="email" type="text" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="vorname.nachname" required maxlength="74" aria-describedby="email-domain"><span id="email-domain">@mpirix.ch</span></div></div>
+<div class="field wide"><label for="email">E-Mail</label><div class="email-input"><input id="email" type="text" inputmode="email" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Name" required maxlength="74" aria-describedby="email-domain"><span id="email-domain">@mpirix.ch</span></div></div>
 <div class="field wide"><label for="linkedin">LinkedIn <span>· optional</span></label><input id="linkedin" type="text" inputmode="url" placeholder="https://www.linkedin.com/in/dein-profil" maxlength="250" aria-describedby="linkedin-hint"><span id="linkedin-hint" class="eyebrow">Link zu deinem LinkedIn-Profil.</span></div>
 </div>
 </form>
@@ -153,7 +153,7 @@ function render(){
  const data=Object.fromEntries(Object.entries(fields).map(([id,field])=>[id,field.value.trim()]));
  for(const [id,field] of Object.entries(fields)){field.setCustomValidity(field.required&&!data[id]?'Bitte dieses Feld ausfüllen.':'');}
  const emailAddress=mpirixEmail(data.email);
- if(data.email&&!emailAddress)fields.email.setCustomValidity('Bitte nur den Namen vor @mpirix.ch eingeben, z. B. vorname.nachname.');
+ if(data.email&&!emailAddress)fields.email.setCustomValidity('Bitte nur den Namen vor @mpirix.ch eingeben, z. B. Name.');
  data.email=emailAddress||'';
  const phone=normalizeSwissPhone(data.mobile);
  if(includeMobile.checked&&data.mobile&&!phone){
@@ -163,10 +163,10 @@ function render(){
  const linkedin=linkedinURL(data.linkedin);
  fields.linkedin.setCustomValidity(activeTab==='desktop'&&data.linkedin&&!linkedin?'Bitte einen gültigen HTTPS-Link zu einem LinkedIn-Profil eingeben.':'');
  const name=[data.first||'Vorname',data.last||'Nachname'].join(' ');
- mobileSignature.textContent=[name,data.role||'Funktion','Mpirix','',...(includeMobile.checked?[data.mobile||'Telefonnummer']:[]),data.email||'vorname.nachname@mpirix.ch','www.mpirix.ch',companyAddress].join('\n');
+ mobileSignature.textContent=[name,data.role||'Funktion','Mpirix','',...(includeMobile.checked?[data.mobile||'Telefonnummer']:[]),data.email||'Name@mpirix.ch','www.mpirix.ch',companyAddress].join('\n');
  const linkStyle='color:#65afff;text-decoration:none;';
  const telephone=(value,label)=>`<span style="color:#65afff;">${label}: </span>${value?`<a href="tel:${escapeHTML(value.replace(/[^+\d]/g,''))}" style="${linkStyle}">${escapeHTML(value)}</a>`:'<span style="color:#65afff;">Telefonnummer</span>'}`;
- const email=data.email&&fields.email.validity.valid?`<a href="mailto:${escapeHTML(data.email)}" style="${linkStyle}">${escapeHTML(data.email)}</a>`:`<span style="color:#65afff;">${escapeHTML(data.email||'vorname.nachname@mpirix.ch')}</span>`;
+ const email=data.email&&fields.email.validity.valid?`<a href="mailto:${escapeHTML(data.email)}" style="${linkStyle}">${escapeHTML(data.email)}</a>`:`<span style="color:#65afff;">${escapeHTML(data.email||'Name@mpirix.ch')}</span>`;
  signature.innerHTML=`<table role="presentation" cellpadding="0" cellspacing="0" border="0" bgcolor="#ebf0f4" style="border-collapse:collapse;background-color:#ebf0f4;max-width:100%;"><tbody><tr><td bgcolor="#ebf0f4" style="padding:16px;background-color:#ebf0f4;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;color:#000000;font-size:12px;line-height:21px;max-width:100%;"><tbody><tr><td width="116" valign="middle" style="width:116px;padding:0 16px 0 0;border-right:2px solid #000000;"><a href="https://mpirix.ch" target="_blank" rel="noopener noreferrer" aria-label="Mpirix Webseite öffnen" style="text-decoration:none;"><img src="${logoURL}" alt="Mpirix" width="100" height="100" style="display:block;width:100px;height:100px;border:0;"></a></td><td valign="top" style="padding:0 0 0 10px;word-break:break-word;"><span style="font-size:14px;line-height:18px;font-weight:bold;color:#000000;">${escapeHTML(name)}</span><br><span style="color:#444444;line-height:18px;">${escapeHTML(data.role||'Funktion')}</span>${includeMobile.checked?`<br>${telephone(data.mobile,'Mobile')}`:''}<br><span style="color:#65afff;">E-Mail: </span>${email}${linkedin?`<br><a href="${escapeHTML(linkedin)}" style="${linkStyle}">LinkedIn</a>`:''}<br><span style="display:inline-block;padding-top:8px;font-size:11px;line-height:16px;color:#1c293a;">${escapeHTML(companyAddress)}</span></td></tr></tbody></table></td></tr></tbody></table>`;
 }
 function selectSignature(target=signature){
